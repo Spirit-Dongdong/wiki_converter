@@ -5,10 +5,12 @@ import org.jsoup.select.Elements;
 
 public class Table {
 
-	private static final String CRLF = "\r\n";
+	public static final String CRLF = "\r\n";
 	private static final String COL_SEPARTOR = "||";
 	private static final String TABLE_END = "|}";
 	private static final String TABLE_BEGIN = "{|border=\"1\" cellspacing=\"0\" align=\"middle\"" + CRLF;
+
+
 
 
 	public String[][] tableContent;
@@ -23,9 +25,14 @@ public class Table {
 		parseTable(table);
 	}
 
+//	public Table(Element tableName, Element table) {
+//		this.tableName = tableName;
+//		parseTable(table);
+//	}
+
 	public String generateTableContent() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(tableName);
+//		sb.append(tableName);
 		sb.append(CRLF);
 		sb.append(TABLE_BEGIN);
 		sb.append(generateTableName());//表头文字
@@ -34,7 +41,7 @@ public class Table {
 			sb.append(generateTableRow(tableContent[i], false));
 		}
 		sb.append(TABLE_END);
-		return sb.toString();
+		return sb.append(Main.BR).toString();
 	}
 
 	public String bold(String content) {
@@ -91,5 +98,31 @@ public class Table {
 			}
 		}
 	}
+
+	public void processLink(Element link) {
+		if (!link.hasAttr("href")) {
+			return;
+		}
+		String href = link.attr("href");
+	}
+
+	private boolean isAbosultLink(String href) {
+		return href.startsWith("/");
+	}
+
+	public static void test(Element table) {
+		Elements sm = table.getElementsByIndexLessThan(table.siblingIndex());
+		Elements gt = table.getElementsByIndexGreaterThan(table.siblingIndex());
+	}
+
+
+	public static Elements interact(Elements s, Elements t) {
+		Elements result = s.clone();
+		result.retainAll(t);
+		return result;
+	}
+
+
+
 
 }
